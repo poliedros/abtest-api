@@ -4,6 +4,6 @@ import { AbtestController } from './abtest.controller';
 
 @Module({
   providers: [AbtestService],
-  controllers: [AbtestController]
+  controllers: [AbtestController],
 })
 export class AbtestModule {}
