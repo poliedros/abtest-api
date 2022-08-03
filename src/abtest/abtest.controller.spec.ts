@@ -2,8 +2,6 @@ import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AbtestController } from './abtest.controller';
 import { AbtestService } from './abtest.service';
-import { CreateAbTestDto } from './dto/create-abtest.dto';
-import { GetAbTestDto } from './dto/get-abtest.dto';
 import * as consts from './consts';
 
 describe('AbtestController', () => {
@@ -43,7 +41,7 @@ describe('AbtestController', () => {
     expect(result).toEqual(consts.getTestWithoutError);
   });
 
-  it('should create without sides', async () => {
+  it('should not create without sides', async () => {
     try {
       await controller.create(consts.createTestWithoutSides);
     } catch (error) {
@@ -51,7 +49,7 @@ describe('AbtestController', () => {
     }
   });
 
-  it('should create without name', async () => {
+  it('should not create without name', async () => {
     try {
       await controller.create(consts.createTestWithoutName);
     } catch (error) {
@@ -72,10 +70,10 @@ describe('AbtestController', () => {
   });
 
   it('should delete a test', async () => {
-    deleteMock.mockReturnValue(Promise.resolve(consts.getTestWithoutError));
+    deleteMock.mockReturnValue(Promise.resolve({ok: true}));
     const result = await controller.delete(consts.abTestName);
-    expect(result).toEqual(consts.getTestWithoutError);
-  }); // TODO: Verificar com Carlos se tá certo isso
+    expect(result).toEqual({ok: true});
+  });
 
   it('should start a test', async () => {
     eventMock.mockReturnValue(Promise.resolve(consts.getTestRunning));
