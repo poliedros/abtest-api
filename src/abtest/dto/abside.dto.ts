@@ -1,7 +1,5 @@
-export class ABSide {
-  id: number;
+export class ABSideDto {
   label: string;
   size: number;
   algorithm: string;
-  abTestId: any;
 }

@@ -3,121 +3,63 @@ import {
   Injectable,
   NotImplementedException,
 } from '@nestjs/common';
-import { CreateAbTestDto } from './dto/create-abtest.dto';
+import { getTestRunning, getTests, getTestStopped, getTestWithoutError } from './consts';
+import { ABTestDto } from './dto/abtest.dto';
+import { CreateABTestDto } from './dto/create-abtest.dto';
+import { GetABTestDto } from './dto/get-abtest.dto';
+import { IABTestService } from './interfaces/abtest.service.interface';
 
 @Injectable()
-export class AbtestService {
-  create(dto: CreateAbTestDto) {
+export class AbtestService implements IABTestService {
+  // Get users on application
+  getUsers() {
+    return [
+      { id: 1234 },
+      { id: 2423 },
+      { id: 8752 },
+      { id: 6755 },
+      { id: 4257 },
+      { id: 5720 },
+      { id: 5725 },
+      { id: 9089 },
+      { id: 7626 },
+      { id: 6590 },
+    ];
+  }
+
+  create(dto: CreateABTestDto): ABTestDto {
     return {
       name: dto.name,
       split_strategy: dto.split_strategy,
       running: false,
       client: dto.client,
-      events: [],
-      sides: [],
-    };
-  }
-
-  get(name: string) {
-    return {
-      name: 'Teste de teste',
-      split_strategy: 'random',
-      running: false,
-      client: 'Carlos safado',
-      events: [],
-      sides: [
-        {
-          label: 'a',
-          size: 30,
-          algorithm: 'alg1',
-        },
-        {
-          label: 'aa',
-          size: 30,
-          algorithm: 'alg2',
-        },
-        {
-          label: 'b',
-          size: 30,
-          algorithm: 'alg3',
-        },
-      ],
-    };
-  }
-
-  get_all() {
-    throw new NotImplementedException();
-  }
-
-  delete(name: string) {
-    throw new NotImplementedException();
-  }
-
-  start(name: string) {
-    return {
-      name: 'Um teste AB qualquer',
-      split_strategy: 'random',
-      running: true,
-      client: 'czar+',
       events: [
         {
-          event: 'start',
-          date: 'today',
-        },
+          event: 'create',
+          date: new Date()
+        }
       ],
-      sides: [
-        {
-          label: 'a',
-          size: 30,
-          algorithm: 'alg1',
-        },
-        {
-          label: 'aa',
-          size: 30,
-          algorithm: 'alg2',
-        },
-        {
-          label: 'b',
-          size: 30,
-          algorithm: 'alg3',
-        },
-      ],
+      sides: dto.sides,
     };
   }
 
-  stop(name: string) {
-    return {
-      name: 'Um teste AB qualquer',
-      split_strategy: 'random',
-      running: false,
-      client: 'czar+',
-      events: [
-        {
-          event: 'start',
-          date: 'today',
-        },
-        {
-          event: 'start',
-          date: 'later today',
-        },
-      ],
-      sides: [
-        {
-          label: 'a',
-          size: 30,
-          algorithm: 'alg1',
-        },
-        {
-          label: 'aa',
-          size: 30,
-          algorithm: 'alg2',
-        },
-        {
-          label: 'b',
-          size: 30,
-          algorithm: 'alg3',
-        },
-      ],
-    };
+  get(name: string): GetABTestDto {
+    return getTestWithoutError;
+  }
+
+  get_all(): GetABTestDto[] {
+    return getTests;
+  }
+
+  delete(name: string): string {
+    return 'ok';
+  }
+
+  start(name: string): ABTestDto {
+    return getTestRunning;
+  }
+
+  stop(name: string): ABTestDto {
+    return getTestStopped;
   }
 }

@@ -70,9 +70,9 @@ describe('AbtestController', () => {
   });
 
   it('should delete a test', async () => {
-    deleteMock.mockReturnValue(Promise.resolve({ok: true}));
+    deleteMock.mockReturnValue(Promise.resolve({ ok: true }));
     const result = await controller.delete(consts.abTestName);
-    expect(result).toEqual({ok: true});
+    expect(result).toEqual({ ok: true });
   });
 
   it('should start a test', async () => {

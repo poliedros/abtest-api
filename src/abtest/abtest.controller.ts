@@ -8,19 +8,19 @@ import {
   Post,
 } from '@nestjs/common';
 import { AbtestService } from './abtest.service';
-import { CreateAbTestDto } from './dto/create-abtest.dto';
-import { GetAbTestDto } from './dto/get-abtest.dto';
+import { CreateABTestDto } from './dto/create-abtest.dto';
+import { GetABTestDto } from './dto/get-abtest.dto';
 
 @Controller('abtest')
 export class AbtestController {
   constructor(private readonly abTestService: AbtestService) {}
 
   @Post()
-  async create(@Body() dto: CreateAbTestDto): Promise<GetAbTestDto> {
+  async create(@Body() dto: CreateABTestDto): Promise<GetABTestDto> {
     if (!dto.name)
       throw new BadRequestException('Could not create a test without name!');
 
-    if (!dto.sides || dto.sides == [])
+    if (!dto.sides || dto.sides.length == 0)
       throw new BadRequestException('Could not create a test without sides!');
 
     return this.abTestService.create(dto);

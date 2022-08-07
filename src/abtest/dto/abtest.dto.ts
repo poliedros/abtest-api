@@ -1,7 +1,7 @@
 import { ABEventDto } from './abevent.dto';
 import { ABSideDto } from './abside.dto';
 
-export class GetABTestDto {
+export class ABTestDto {
   name: string;
   split_strategy: string;
   running: boolean;
