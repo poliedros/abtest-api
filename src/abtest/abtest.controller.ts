@@ -23,31 +23,31 @@ export class AbtestController {
     if (!dto.sides || dto.sides == [])
       throw new BadRequestException('Could not create a test without sides!');
 
-    return this.abTestService.createABTest(dto);
+    return this.abTestService.create(dto);
   }
 
   @Get('/:name')
   get(@Param() params) {
-    return this.abTestService.getABTest(params.name);
+    return this.abTestService.get(params.name);
   }
 
   @Get()
   get_all() {
-    return this.abTestService.getAllABTests();
+    return this.abTestService.get_all();
   }
 
   @Delete('/:name')
   delete(@Param() params) {
-    return this.abTestService.deleteABTest(params.name);
+    return this.abTestService.delete(params.name);
   }
 
   @Post('start/:name')
   start(@Param() params) {
-    return this.abTestService.startABTest(params.name);
+    return this.abTestService.start(params.name);
   }
 
   @Post('stop/:name')
   stop(@Param() params) {
-    return this.abTestService.stopABTest(params.name);
+    return this.abTestService.stop(params.name);
   }
 }

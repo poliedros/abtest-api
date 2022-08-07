@@ -3,70 +3,22 @@ import {
   Injectable,
   NotImplementedException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
-import { Repository } from 'typeorm/repository/Repository';
 import { CreateAbTestDto } from './dto/create-abtest.dto';
-import { ABEvent } from './entities/abevent.entity';
-import { ABSide } from './entities/abside.entity';
-import { User } from './entities/user.entity';
 
 @Injectable()
 export class AbtestService {
-  constructor(
-    private dataSource: DataSource,
-    @InjectRepository(User) private usersRepository: Repository<User>,
-    @InjectRepository(ABSide) private absideRepository: Repository<ABSide>,
-    @InjectRepository(ABEvent) private abeventRepository: Repository<ABEvent>,
-  ) {}
-
-  // Get users on application
-  getUsers() {
-    [{'userId': 1234}, {'userId': 2423}, {'userId': 8752}, {'userId': 6755}, {'userId': 4257}, 
-    {'userId': 5720}, {'userId': 5725}, {'userId': 9089}, {'userId': 7626}, {'userId': 6590}]
+  create(dto: CreateAbTestDto) {
+    return {
+      name: dto.name,
+      split_strategy: dto.split_strategy,
+      running: false,
+      client: dto.client,
+      events: [],
+      sides: [],
+    };
   }
 
-  async createUsers(users: User[]) {
-    const queryRunner = this.dataSource.createQueryRunner();
-  
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try {
-      users.forEach(user => {
-        queryRunner.manager.save(user);
-      });
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
-    }
-  }  
-
-  async createABTest(dto: CreateAbTestDto) {
-    const queryRunner = this.dataSource.createQueryRunner();
-  
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try {
-      await queryRunner.manager.save(dto);
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
-      return {
-        name: dto.name,
-        split_strategy: dto.split_strategy,
-        running: false,
-        client: dto.client,
-        events: [],
-        sides: [],
-      };
-    }
-  }
-
-  getABTest(name: string) {
+  get(name: string) {
     return {
       name: 'Teste de teste',
       split_strategy: 'random',
@@ -93,15 +45,15 @@ export class AbtestService {
     };
   }
 
-  getAllABTests() {
+  get_all() {
     throw new NotImplementedException();
   }
 
-  deleteABTest(name: string) {
+  delete(name: string) {
     throw new NotImplementedException();
   }
 
-  startABTest(name: string) {
+  start(name: string) {
     return {
       name: 'Um teste AB qualquer',
       split_strategy: 'random',
@@ -133,7 +85,7 @@ export class AbtestService {
     };
   }
 
-  stopABTest(name: string) {
+  stop(name: string) {
     return {
       name: 'Um teste AB qualquer',
       split_strategy: 'random',
