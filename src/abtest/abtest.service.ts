@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotImplementedException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
   fakeTests,
   getTestRunning,
@@ -19,7 +15,7 @@ import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class AbtestService implements IABTestService {
-  constructor(private readonly userService: UserService){}
+  constructor(private readonly userService: UserService) {}
 
   create(dto: CreateABTestDto): ABTestDto {
     let newTest = {
@@ -53,10 +49,18 @@ export class AbtestService implements IABTestService {
   }
 
   checkSides(users: UserDto[], test: ABTestDto) {
-    const usersSides = users.filter((user) => user.side);
-    const sidesProportion = test.sides.filter((side) => side.size);
-    console.log(usersSides);
-    console.log(sidesProportion);
+    let props = [];
+    test.sides.forEach((side) => {
+      const numUsers = users.filter((user) => user.side == side.label).length;
+      props.push({
+        side: side.label,
+        proportion: side.size,
+        numUsers: numUsers / users.length,
+        diff: side.size - numUsers / users.length,
+      });
+    });
+    return props
+    console.log(props);
   }
 
   splitUsers(users: UserDto[], test: ABTestDto) {
@@ -65,13 +69,18 @@ export class AbtestService implements IABTestService {
         let numUsers = Math.floor(side.size * users.length);
 
         for (let i = 0; i < numUsers; i++) {
-          let randomUser = Math.floor(Math.random() * users.length);
-          users[randomUser].side = side.label;
+          let unsorted = users.filter(obj => obj.side == '')
+          let n = Math.floor(Math.random() * unsorted.length);
+          let randomUser = unsorted[n].id
+          let person = users.find((randomUser) => {
+            return person.side === side.label;
+         });
+          users[unsorted[randomUser].id].side = side.label;
         }
       });
     }
-    this.checkSides(users, test);
-    return users;
+    if(this.checkSides(users, test))
+      return users;
   }
 
   start(name: string): ABTestDto {
