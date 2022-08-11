@@ -2,7 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AbtestController } from './abtest.controller';
 import { AbtestService } from './abtest.service';
-import * as consts from './consts';
+import * as consts from './variables';
 
 describe('AbtestController', () => {
   let controller: AbtestController;

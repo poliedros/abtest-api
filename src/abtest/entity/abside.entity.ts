@@ -3,5 +3,5 @@ export class ABSide {
   label: string;
   size: number;
   algorithm: string;
-  abTestId: any;
+  abTestId: number;
 }

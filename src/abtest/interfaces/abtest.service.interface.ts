@@ -4,13 +4,11 @@ import { GetABTestDto } from '../dto/get-abtest.dto';
 import { UserDto } from '../dto/user.dto';
 
 export interface IABTestService {
-  getUsers(): UserDto[];
+  create(dto: CreateABTestDto): ABTestDto; // Persist the AB Test Config
 
-  create(dto: CreateABTestDto): ABTestDto;
+  get(name: string): GetABTestDto; // Get one AB Test Config
 
-  get(name: string): GetABTestDto;
-
-  get_all(): GetABTestDto[];
+  get_all(): GetABTestDto[]; //Get all AB Tests created
 
   delete(name: string): string;
 

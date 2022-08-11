@@ -3,7 +3,12 @@ import {
   Injectable,
   NotImplementedException,
 } from '@nestjs/common';
-import { getTestRunning, getTests, getTestStopped, getTestWithoutError } from './consts';
+import {
+  getTestRunning,
+  getTests,
+  getTestStopped,
+  getTestWithoutError,
+} from './variables';
 import { ABTestDto } from './dto/abtest.dto';
 import { CreateABTestDto } from './dto/create-abtest.dto';
 import { GetABTestDto } from './dto/get-abtest.dto';
@@ -11,22 +16,6 @@ import { IABTestService } from './interfaces/abtest.service.interface';
 
 @Injectable()
 export class AbtestService implements IABTestService {
-  // Get users on application
-  getUsers() {
-    return [
-      { id: 1234 },
-      { id: 2423 },
-      { id: 8752 },
-      { id: 6755 },
-      { id: 4257 },
-      { id: 5720 },
-      { id: 5725 },
-      { id: 9089 },
-      { id: 7626 },
-      { id: 6590 },
-    ];
-  }
-
   create(dto: CreateABTestDto): ABTestDto {
     return {
       name: dto.name,
@@ -36,8 +25,8 @@ export class AbtestService implements IABTestService {
       events: [
         {
           event: 'create',
-          date: new Date()
-        }
+          date: new Date(),
+        },
       ],
       sides: dto.sides,
     };
