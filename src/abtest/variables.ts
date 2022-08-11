@@ -1,3 +1,4 @@
+import { ABTestDto } from './dto/abtest.dto';
 import { CreateABTestDto } from './dto/create-abtest.dto';
 import { GetABTestDto } from './dto/get-abtest.dto';
 import { UserDto } from './dto/user.dto';
@@ -47,7 +48,7 @@ export const createTestWithoutName: CreateABTestDto = {
   ],
 };
 
-export var getTests: GetABTestDto[] = [
+export const getTests: GetABTestDto[] = [
   {
     name: 'ABTest1',
     split_strategy: 'random',
@@ -211,4 +212,55 @@ export var fakeUsers: UserDto[] = [
   { id: 7, side: '', testUser: false, isActive: true },
   { id: 8, side: '', testUser: false, isActive: true },
   { id: 9, side: '', testUser: false, isActive: true },
+];
+
+export var fakeTests: ABTestDto[] = [
+  {
+    name: 'ABTest1',
+    split_strategy: 'random',
+    client: 'CZAR+',
+    running: false,
+    events: [],
+    sides: [
+      {
+        label: 'a',
+        size: 30,
+        algorithm: 'alg1',
+      },
+      {
+        label: 'aa',
+        size: 30,
+        algorithm: 'alg2',
+      },
+      {
+        label: 'b',
+        size: 30,
+        algorithm: 'alg3',
+      },
+    ],
+  },
+  {
+    name: 'ABTest2',
+    split_strategy: 'estratified',
+    client: 'CZAR+',
+    running: true,
+    events: [],
+    sides: [
+      {
+        label: 'a',
+        size: 30,
+        algorithm: 'alg1',
+      },
+      {
+        label: 'aa',
+        size: 30,
+        algorithm: 'alg2',
+      },
+      {
+        label: 'b',
+        size: 30,
+        algorithm: 'alg3',
+      },
+    ],
+  },
 ];

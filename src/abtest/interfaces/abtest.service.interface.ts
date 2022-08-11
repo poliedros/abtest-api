@@ -10,7 +10,7 @@ export interface IABTestService {
 
   get_all(): GetABTestDto[]; //Get all AB Tests created
 
-  delete(name: string): string;
+  delete(name: string): GetABTestDto[];
 
   start(name: string): ABTestDto;
 

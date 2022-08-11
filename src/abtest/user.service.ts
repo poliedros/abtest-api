@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { fakeUsers } from 'src/abtest/variables';
-import { User } from 'src/abtest/entity/user.entity';
-import { IUserService } from 'src/abtest/interfaces/user.service.interface';
+import { fakeUsers } from './variables';
+import { User } from './entity/user.entity';
+import { IUserService } from './interfaces/user.service.interface';
 import { userInfo } from 'os';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class UserService implements IUserService {
     return fakeUsers.find((user) => user.id == id);
   }
   changeSide(id: number, newSide: string): User {
-    var index = fakeUsers.findIndex((user) => user.id == id);
+    let index = fakeUsers.findIndex((user) => user.id == id);
     fakeUsers[index].side = newSide;
     return fakeUsers[index];
   }
