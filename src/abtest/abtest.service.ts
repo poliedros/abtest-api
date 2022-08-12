@@ -1,21 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import {
-  fakeTests,
-  getTestRunning,
-  getTests,
-  getTestStopped,
-  getTestWithoutError,
-} from './variables';
+import { fakeTests } from './variables';
 import { ABTestDto } from './dto/abtest.dto';
 import { CreateABTestDto } from './dto/create-abtest.dto';
 import { GetABTestDto } from './dto/get-abtest.dto';
 import { IABTestService } from './interfaces/abtest.service.interface';
 import { UserService } from './user.service';
-import { UserDto } from './dto/user.dto';
+import { RandomStrategy } from './strategies/random.strategy';
 
 @Injectable()
 export class AbtestService implements IABTestService {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly randomStrategy: RandomStrategy,
+  ) {}
 
   create(dto: CreateABTestDto): ABTestDto {
     let newTest = {
@@ -39,7 +36,7 @@ export class AbtestService implements IABTestService {
     return fakeTests.find((test) => test.name == name);
   }
 
-  get_all(): GetABTestDto[] {
+  getAll(): GetABTestDto[] {
     return fakeTests;
   }
 
@@ -48,47 +45,13 @@ export class AbtestService implements IABTestService {
     return fakeTests.splice(index);
   }
 
-  checkSides(users: UserDto[], test: ABTestDto) {
-    let props = [];
-    test.sides.forEach((side) => {
-      const numUsers = users.filter((user) => user.side == side.label).length;
-      props.push({
-        side: side.label,
-        proportion: side.size,
-        numUsers: numUsers / users.length,
-        diff: side.size - numUsers / users.length,
-      });
-    });
-    return props
-    console.log(props);
-  }
-
-  splitUsers(users: UserDto[], test: ABTestDto) {
-    if (test.split_strategy == 'random') {
-      test.sides.forEach((side) => {
-        let numUsers = Math.floor(side.size * users.length);
-
-        for (let i = 0; i < numUsers; i++) {
-          let unsorted = users.filter(obj => obj.side == '')
-          let n = Math.floor(Math.random() * unsorted.length);
-          let randomUser = unsorted[n].id
-          let person = users.find((randomUser) => {
-            return person.side === side.label;
-         });
-          users[unsorted[randomUser].id].side = side.label;
-        }
-      });
-    }
-    if(this.checkSides(users, test))
-      return users;
-  }
-
   start(name: string): ABTestDto {
-    let test = fakeTests.find((test) => test.name == name);
+    const test = fakeTests.find((test) => test.name == name);
     let users = this.userService.getUsers();
-    users = this.splitUsers(users, test);
-
-    let index = fakeTests.findIndex((test) => test.name == name);
+    console.log('vou chamar o split');
+    users = this.randomStrategy.splitUsers(users, test);
+    console.log('voltei do split');
+    const index = fakeTests.findIndex((test) => test.name == name);
     fakeTests[index].running = true;
     return fakeTests[index];
   }

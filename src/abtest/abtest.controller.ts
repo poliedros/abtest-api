@@ -39,8 +39,8 @@ export class AbtestController {
   }
 
   @Get()
-  get_all() {
-    return this.abTestService.get_all();
+  getAll() {
+    return this.abTestService.getAll();
   }
 
   @Delete('/:name')
@@ -50,6 +50,7 @@ export class AbtestController {
 
   @Post('start/:name')
   start(@Param() params) {
+    console.log('to aqui');
     return this.abTestService.start(params.name);
   }
 
