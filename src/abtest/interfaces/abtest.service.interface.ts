@@ -3,15 +3,16 @@ import { CreateABTestDto } from '../dto/create-abtest.dto';
 import { GetABTestDto } from '../dto/get-abtest.dto';
 
 export interface IABTestService {
-  create(dto: CreateABTestDto): ABTestDto; // Persist the AB Test Config
-
-  get(name: string): GetABTestDto; // Get one AB Test Config
-
-  getAll(): GetABTestDto[]; //Get all AB Tests created
-
+  // Persist the AB Test config
+  create(dto: CreateABTestDto): ABTestDto;
+  // Get one AB Test config
+  get(name: string): GetABTestDto;
+  //Get all AB Tests created
+  getAll(): GetABTestDto[];
+  // Delete an existing AB Test
   delete(name: string): GetABTestDto[];
-
+  // Start the AB Test and split users
   start(name: string): ABTestDto;
-
+  // Stop the AB Test
   stop(name: string): ABTestDto;
 }

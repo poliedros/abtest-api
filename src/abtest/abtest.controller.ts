@@ -23,7 +23,7 @@ export class AbtestController {
     if (!dto.sides || dto.sides.length == 0)
       throw new BadRequestException('Could not create a test without sides!');
 
-    var sumSides = 0;
+    let sumSides = 0;
     dto.sides.forEach((side) => (sumSides += side.size));
     if (sumSides != 1)
       throw new BadRequestException(
@@ -50,7 +50,6 @@ export class AbtestController {
 
   @Post('start/:name')
   start(@Param() params) {
-    console.log('to aqui');
     return this.abTestService.start(params.name);
   }
 
